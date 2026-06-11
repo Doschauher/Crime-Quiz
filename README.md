@@ -7,9 +7,20 @@ Deine Live-Links:
 - **Moderator-Panel (Admin)**: [https://tobiasjschreiber.github.io/Crime-Quiz/?role=admin](https://tobiasjschreiber.github.io/Crime-Quiz/?role=admin)
 - **Beamer-Leinwand (Presenter)**: [https://tobiasjschreiber.github.io/Crime-Quiz/?role=presenter](https://tobiasjschreiber.github.io/Crime-Quiz/?role=presenter)
 
-<img width="2416" height="1517" alt="image" src="https://github.com/user-attachments/assets/1cc735f7-4f11-4487-ae8f-065526f78c8d" />
-<img width="2414" height="1517" alt="image" src="https://github.com/user-attachments/assets/57ad0980-55b4-44f3-9952-c07ce8f4d34e" />
-<img width="2409" height="1519" alt="image" src="https://github.com/user-attachments/assets/6f700da4-2a24-4586-beab-7a64a0bec0d1" />
+### Am Handy
+
+<img alt="image" src="https://github.com/user-attachments/assets/004a1a99-a0d6-44a2-9c14-fb68e617146d" width="25%">
+
+### Live Vorschau
+
+<img src="https://github.com/user-attachments/assets/1cc735f7-4f11-4487-ae8f-065526f78c8d" width="50%">
+
+<img src="https://github.com/user-attachments/assets/57ad0980-55b4-44f3-9952-c07ce8f4d34e" width="50%">
+
+### Admin Dashboard
+
+<img src="https://github.com/user-attachments/assets/6f700da4-2a24-4586-beab-7a64a0bec0d1" width="50%">
+
 
 
 
