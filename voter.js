@@ -152,14 +152,23 @@ async function submitVote(optionIndex) {
     showVoterLayout('loading');
 
     try {
-        // Refresh state first to make sure results are not shown yet
+        // Refresh state first to make sure results are not shown yet and the question is still active
         const { data: stateData } = await db
             .from('quiz_state')
-            .select('show_results')
+            .select('active_question_id, show_results')
             .eq('id', 1)
             .single();
 
-        if (stateData && stateData.show_results) {
+        // 1. Check if the active question has changed or was closed
+        if (!stateData || String(stateData.active_question_id) !== String(voterActiveQuestion.id)) {
+            await showCustomAlert('Diese Abstimmung ist nicht mehr aktiv! Die Runde wurde bereits beendet oder gewechselt.');
+            // Sync state and reload view to current state
+            await fetchVoterState();
+            return;
+        }
+
+        // 2. Check if results are already revealed
+        if (stateData.show_results) {
             await showCustomAlert('Die Abstimmung für diese Runde ist bereits geschlossen!');
             showVoterLayout('closed');
             return;

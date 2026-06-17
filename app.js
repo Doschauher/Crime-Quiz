@@ -277,8 +277,15 @@ async function checkDbConfiguration() {
         setupDbFormHandler();
     } else {
         try {
-            // Initialize Supabase client
-            db = supabase.createClient(sbUrl, sbKey);
+            // Initialize Supabase client with admin password header if available
+            const adminPassword = localStorage.getItem('adminPassword') || '';
+            db = supabase.createClient(sbUrl, sbKey, {
+                global: {
+                    headers: {
+                        'x-admin-password': adminPassword
+                    }
+                }
+            });
             
             // Route to appropriate view
             await routeToRole();
@@ -316,11 +323,23 @@ function setupDbFormHandler() {
 // Handle routing to the correct layout container
 async function routeToRole() {
     if (currentRole === 'admin') {
-        const password = localStorage.getItem('adminPassword');
+        let password = localStorage.getItem('adminPassword');
         if (!password) {
             const promptPassword = await showCustomPrompt('Bitte Admin-Passwort eingeben:', 'Passwort...', true, 'ADMIN-LOGIN');
             if (promptPassword) {
                 localStorage.setItem('adminPassword', promptPassword);
+                password = promptPassword;
+                
+                // Re-initialize Supabase client with the entered password header
+                const sbUrl = CONFIG.supabaseUrl || localStorage.getItem('supabaseUrl');
+                const sbKey = CONFIG.supabaseKey || localStorage.getItem('supabaseKey');
+                db = supabase.createClient(sbUrl, sbKey, {
+                    global: {
+                        headers: {
+                            'x-admin-password': password
+                        }
+                    }
+                });
             } else {
                 currentRole = 'voter'; // Fallback
                 await routeToRole();

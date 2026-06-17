@@ -15,6 +15,7 @@ let adminVoteCount = 0;
 // Initialize Admin Screen
 async function initAdmin() {
     setupAdminEventListeners();
+    await ensureAdminPasswordIsSet();
     await fetchState();
     await fetchQuestions();
     await fetchVoteCount();
@@ -639,4 +640,34 @@ function compressImage(file) {
         reader.onerror = reject;
         reader.readAsDataURL(file);
     });
+}
+
+// Ensure the admin password is synchronized to the database settings table
+async function ensureAdminPasswordIsSet() {
+    const password = localStorage.getItem('adminPassword');
+    if (!password) return;
+    try {
+        // Try to fetch the password row
+        const { data, error } = await db
+            .from('quiz_settings')
+            .select('*')
+            .eq('id', 1)
+            .maybeSingle();
+
+        if (error) {
+            // Table might not exist yet (user hasn't executed SQL setup script), ignore warning
+            console.warn('quiz_settings Tabelle existiert eventuell nicht oder RLS blockiert:', error);
+            return;
+        }
+
+        if (!data) {
+            // If the row doesn't exist, insert the initial password
+            console.log('Setze Admin-Passwort in der Datenbank...');
+            await db
+                .from('quiz_settings')
+                .insert([{ id: 1, admin_password: password }]);
+        }
+    } catch (e) {
+        console.error('Fehler beim Abgleich des Admin-Passworts:', e);
+    }
 }
