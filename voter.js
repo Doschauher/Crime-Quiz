@@ -40,24 +40,48 @@ async function fetchVoterState() {
 // Handle question transitions
 async function handleVoterStateChange() {
     if (voterState.active_question_id) {
-        // If question is already loaded and is the same, do nothing
-        if (voterActiveQuestion && String(voterActiveQuestion.id) === String(voterState.active_question_id)) {
-            return;
+        // Fetch question details if not loaded or if it changed
+        if (!voterActiveQuestion || String(voterActiveQuestion.id) !== String(voterState.active_question_id)) {
+            try {
+                const { data: qData, error } = await db
+                    .from('questions')
+                    .select('*')
+                    .eq('id', voterState.active_question_id)
+                    .single();
+
+                if (error) throw error;
+                voterActiveQuestion = qData;
+            } catch (err) {
+                console.error('Fehler beim Laden der Wähler-Frage:', err);
+                showVoterLayout('waiting');
+                return;
+            }
         }
 
-        // Fetch question details
+        // Check if user has already voted for this question in the database
         try {
-            const { data: qData, error } = await db
-                .from('questions')
-                .select('*')
-                .eq('id', voterState.active_question_id)
-                .single();
+            const { data: voteData, error: voteError } = await db
+                .from('votes')
+                .select('id')
+                .eq('question_id', voterActiveQuestion.id)
+                .eq('device_id', currentDeviceId)
+                .maybeSingle();
 
-            if (error) throw error;
+            if (voteError) throw voteError;
 
-            voterActiveQuestion = qData;
-            
-            // Check if user has already voted for this question
+            if (voteData) {
+                // Save vote state locally to prevent repeat clicks
+                localStorage.setItem(`voted_${voterActiveQuestion.id}`, 'true');
+                showVoterLayout('success');
+            } else {
+                // If no vote is found in the database, clear local storage for this question
+                localStorage.removeItem(`voted_${voterActiveQuestion.id}`);
+                renderVoterQuestion();
+                showVoterLayout('question');
+            }
+        } catch (err) {
+            console.error('Fehler beim Überprüfen der Stimme:', err);
+            // Fallback to local storage if DB query fails
             const hasVoted = localStorage.getItem(`voted_${voterActiveQuestion.id}`);
             if (hasVoted !== null) {
                 showVoterLayout('success');
@@ -65,9 +89,6 @@ async function handleVoterStateChange() {
                 renderVoterQuestion();
                 showVoterLayout('question');
             }
-        } catch (err) {
-            console.error('Fehler beim Laden der Wähler-Frage:', err);
-            showVoterLayout('waiting');
         }
     } else {
         // No active question

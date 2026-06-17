@@ -270,6 +270,16 @@ async function resetActiveVotes() {
             .eq('question_id', adminState.active_question_id);
 
         if (error) throw error;
+
+        // Also update quiz_state to trigger real-time updates for voter/presenter
+        await db
+            .from('quiz_state')
+            .update({ 
+                active_question_id: adminState.active_question_id,
+                show_results: false
+            })
+            .eq('id', 1);
+
         await showCustomAlert('Stimmen wurden zurückgesetzt.');
     } catch (err) {
         console.error('Fehler beim Zurücksetzen der Stimmen:', err);

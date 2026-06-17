@@ -3,9 +3,9 @@
 Ein interaktives Echtzeit-Umfragewerkzeug (ähnlich wie Mentimeter) speziell für Live-Krimishows. Die Anwendung läuft komplett serverlos (statisches HTML/JS/CSS), wird auf **GitHub Pages** gehostet und nutzt **Supabase** als kostenlose Echtzeit-Datenbank.
 
 Deine Live-Links:
-- **Zuschauer-Voting (Voter)**: [https://tobiasjschreiber.github.io/Crime-Quiz/](https://tobiasjschreiber.github.io/Crime-Quiz/)
-- **Moderator-Panel (Admin)**: [https://tobiasjschreiber.github.io/Crime-Quiz/?role=admin](https://tobiasjschreiber.github.io/Crime-Quiz/?role=admin)
-- **Beamer-Leinwand (Presenter)**: [https://tobiasjschreiber.github.io/Crime-Quiz/?role=presenter](https://tobiasjschreiber.github.io/Crime-Quiz/?role=presenter)
+- **Zuschauer-Voting (Voter)**: <a href="https://tobiasjschreiber.github.io/Crime-Quiz/" target="_blank" rel="noopener noreferrer">https://tobiasjschreiber.github.io/Crime-Quiz/</a>
+- **Moderator-Panel (Admin)**: <a href="https://tobiasjschreiber.github.io/Crime-Quiz/?role=admin" target="_blank" rel="noopener noreferrer">https://tobiasjschreiber.github.io/Crime-Quiz/?role=admin</a>
+- **Beamer-Leinwand (Presenter)**: <a href="https://tobiasjschreiber.github.io/Crime-Quiz/?role=presenter" target="_blank" rel="noopener noreferrer">https://tobiasjschreiber.github.io/Crime-Quiz/?role=presenter</a>
 
 ### Am Handy
 
@@ -52,7 +52,7 @@ Deine Live-Links:
 
 ### Adobe Fonts (TT Modernoir) einbinden
 Damit die Schriftart **TT Modernoir** bei allen Besuchern korrekt angezeigt wird, musst du das Projekt mit deiner Adobe Fonts Kit-ID verknüpfen:
-1. Erstelle ein Web-Projekt auf [fonts.adobe.com](https://fonts.adobe.com) für **TT Modernoir**.
+1. Erstelle ein Web-Projekt auf <a href="https://fonts.adobe.com" target="_blank" rel="noopener noreferrer">fonts.adobe.com</a> für **TT Modernoir**.
 2. Ersetze in der `index.html` den Pfad der Kit-ID mit deinem eigenen Projekt-Link (derzeit ist dort dein Link `https://use.typekit.net/yxu7vvd.css` hinterlegt):
    ```html
    <link rel="stylesheet" href="https://use.typekit.net/DEINE_KIT_ID.css">
