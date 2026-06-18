@@ -156,6 +156,9 @@ function renderVoterQuestion() {
             
         const btn = document.createElement('button');
         btn.className = 'voter-suspect-card';
+        if (silhouette === 'none') {
+            btn.classList.add('text-only-card');
+        }
         // Alternating rotations for detective desk look
         const rotations = ['-1.5deg', '1deg', '-2deg', '1.5deg'];
         btn.style.setProperty('--rotation', rotations[idx % rotations.length]);
@@ -184,12 +187,18 @@ function renderVoterQuestion() {
             }
         };
 
-        btn.innerHTML = `
-            <div class="suspect-photo-container">
-                ${getSilhouetteSvg(silhouette)}
-            </div>
-            <div class="suspect-name">${opt}</div>
-        `;
+        if (silhouette === 'none') {
+            btn.innerHTML = `
+                <div class="suspect-name">${opt}</div>
+            `;
+        } else {
+            btn.innerHTML = `
+                <div class="suspect-photo-container">
+                    ${getSilhouetteSvg(silhouette)}
+                </div>
+                <div class="suspect-name">${opt}</div>
+            `;
+        }
 
         list.appendChild(btn);
     });

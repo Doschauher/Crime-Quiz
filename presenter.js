@@ -239,17 +239,30 @@ function renderChart(totalVotes, delayHeightAnimation = false) {
         const rot = rotations[idx % rotations.length];
         
         // Set dynamic content
+        let cardHtml = '';
+        if (silhouette === 'none') {
+            cardHtml = `
+                <div class="column-label suspect-card text-only-card" data-suspect="${opt.replace(/"/g, '&quot;')}" style="--rotation: ${rot}" onclick="showLargeSuspect('${opt.replace(/'/g, "\\'")}', '${silhouette}')">
+                    <div class="suspect-name">${opt}</div>
+                </div>
+            `;
+        } else {
+            cardHtml = `
+                <div class="column-label suspect-card" data-suspect="${opt.replace(/"/g, '&quot;')}" style="--rotation: ${rot}" onclick="showLargeSuspect('${opt.replace(/'/g, "\\'")}', '${silhouette}')">
+                    <div class="suspect-photo-container">
+                        ${getSilhouetteSvg(silhouette)}
+                    </div>
+                    <div class="suspect-name">${opt}</div>
+                </div>
+            `;
+        }
+
         col.innerHTML = `
             <div class="vote-count-label">${count}</div>
             <div class="bar-wrapper">
                 <div class="bar" id="bar-${idx}" style="height: 0%"></div>
             </div>
-            <div class="column-label suspect-card" data-suspect="${opt.replace(/"/g, '&quot;')}" style="--rotation: ${rot}" onclick="showLargeSuspect('${opt.replace(/'/g, "\\'")}', '${silhouette}')">
-                <div class="suspect-photo-container">
-                    ${getSilhouetteSvg(silhouette)}
-                </div>
-                <div class="suspect-name">${opt}</div>
-            </div>
+            ${cardHtml}
         `;
         
         chartContainer.appendChild(col);
@@ -282,6 +295,9 @@ function renderVotingPhaseSuspects() {
         
         const card = document.createElement('div');
         card.className = 'presenter-suspect-card-large';
+        if (silhouette === 'none') {
+            card.classList.add('text-only-card');
+        }
         card.dataset.suspect = opt;
         const rot = rotations[idx % rotations.length];
         card.style.setProperty('--rotation', rot);
@@ -289,12 +305,18 @@ function renderVotingPhaseSuspects() {
         
         card.onclick = () => showLargeSuspect(opt, silhouette);
         
-        card.innerHTML = `
-            <div class="suspect-photo-container">
-                ${getSilhouetteSvg(silhouette)}
-            </div>
-            <div class="suspect-name">${opt}</div>
-        `;
+        if (silhouette === 'none') {
+            card.innerHTML = `
+                <div class="suspect-name">${opt}</div>
+            `;
+        } else {
+            card.innerHTML = `
+                <div class="suspect-photo-container">
+                    ${getSilhouetteSvg(silhouette)}
+                </div>
+                <div class="suspect-name">${opt}</div>
+            `;
+        }
         
         container.appendChild(card);
     });
@@ -592,17 +614,22 @@ function showLargeSuspect(name, silhouette) {
     const spotlightPhoto = document.getElementById('spotlight-photo');
     const spotlightName = document.getElementById('spotlight-name');
     const spotlightTitle = document.querySelector('.spotlight-title');
-    
-    if (spotlightTitle) {
-        spotlightTitle.textContent = 'HAUPTVERDÄCHTIGER';
-    }
+    const photoFrame = document.querySelector('.spotlight-photo-frame');
     
     spotlightName.textContent = name;
     
-    if (silhouette && (silhouette.startsWith('data:image/') || silhouette.startsWith('http://') || silhouette.startsWith('https://'))) {
-        spotlightPhoto.innerHTML = `<img src="${silhouette}" alt="Suspect" class="suspect-custom-img">`;
+    if (silhouette === 'none') {
+        if (photoFrame) photoFrame.classList.add('hidden');
+        if (spotlightTitle) spotlightTitle.textContent = 'AUSWAHL';
     } else {
-        spotlightPhoto.innerHTML = getSilhouetteSvg(silhouette);
+        if (photoFrame) photoFrame.classList.remove('hidden');
+        if (spotlightTitle) spotlightTitle.textContent = 'HAUPTVERDÄCHTIGER';
+        
+        if (silhouette && (silhouette.startsWith('data:image/') || silhouette.startsWith('http://') || silhouette.startsWith('https://'))) {
+            spotlightPhoto.innerHTML = `<img src="${silhouette}" alt="Suspect" class="suspect-custom-img">`;
+        } else {
+            spotlightPhoto.innerHTML = getSilhouetteSvg(silhouette);
+        }
     }
     
     spotlight.classList.remove('hidden');
@@ -650,15 +677,22 @@ function renderWinnerColumn() {
             photoHtml = getSilhouetteSvg(silhouette);
         }
         
+        let photoFrameHtml = `
+            <div class="winner-photo-frame">
+                ${photoHtml}
+            </div>
+        `;
+        if (silhouette === 'none') {
+            photoFrameHtml = '';
+        }
+        
         // Pluralization for "Stimme/Stimmen"
         const votesText = maxVotes === 1 ? '1 Stimme' : `${maxVotes} Stimmen`;
         
         winnerContainer.innerHTML = `
-            <div class="winner-card">
+            <div class="winner-card ${silhouette === 'none' ? 'text-only-winner' : ''}">
                 <div class="winner-title">MEISTE STIMMEN!</div>
-                <div class="winner-photo-frame">
-                    ${photoHtml}
-                </div>
+                ${photoFrameHtml}
                 <div class="winner-name">${name}</div>
                 <div class="winner-votes-badge">${votesText}</div>
             </div>

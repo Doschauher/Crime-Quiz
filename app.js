@@ -56,6 +56,12 @@ const SUSPECT_SILHOUETTES = {
             <path d="M50 20c-11 0-20 9-20 20 0 3 2 5 5 5s5-2 5-5c0-6 5-10 10-10s10 4 10 10c0 5-3 8-6 11l-4 4c-4 4-5 8-5 13v2c0 3 2 5 5 5s5-2 5-5v-1c0-4 1-6 4-9l4-4c4-4 8-10 8-17 0-11-9-20-20-20z" fill="currentColor"/>
             <circle cx="50" cy="78" r="6" fill="currentColor"/>
         </svg>
+    `,
+    'none': `
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="35" stroke="currentColor" stroke-width="8" fill="none" opacity="0.4" />
+            <line x1="25" y1="25" x2="75" y2="75" stroke="currentColor" stroke-width="8" stroke-linecap="round" opacity="0.4" />
+        </svg>
     `
 };
 

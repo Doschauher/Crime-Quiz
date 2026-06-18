@@ -2614,3 +2614,59 @@ select:focus-visible {
         padding: 1rem;
     }
 }
+
+/* Text-only cards (no photo container) */
+.voter-suspect-card.text-only-card {
+    aspect-ratio: 1 / 1;
+    justify-content: center;
+    padding: 20px;
+}
+.voter-suspect-card.text-only-card .suspect-name {
+    margin-top: 0;
+    font-size: 1.6rem;
+    white-space: normal;
+    word-break: break-word;
+}
+
+.suspect-card.text-only-card {
+    aspect-ratio: 1 / 1;
+    justify-content: center;
+    padding: 8px;
+}
+.suspect-card.text-only-card .suspect-name {
+    margin-top: 0;
+    font-size: 1.1rem;
+    white-space: normal;
+    word-break: break-word;
+}
+
+.presenter-suspect-card-large.text-only-card {
+    aspect-ratio: 1 / 1;
+    justify-content: center;
+    padding: 20px;
+}
+.presenter-suspect-card-large.text-only-card .suspect-name {
+    margin-top: 0;
+    font-size: 2.2rem;
+    white-space: normal;
+    word-break: break-word;
+}
+
+.winner-card.text-only-winner {
+    aspect-ratio: 1 / 1;
+    justify-content: center;
+    padding: 20px;
+}
+.winner-card.text-only-winner::before {
+    content: 'ERGEBNIS';
+}
+.winner-card.text-only-winner .winner-name {
+    font-size: 2.2rem;
+    margin-bottom: 0.5rem;
+}
+
+@media (max-width: 480px) {
+    .voter-suspect-card.text-only-card .suspect-name {
+        font-size: 1.3rem;
+    }
+}

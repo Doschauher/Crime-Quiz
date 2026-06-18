@@ -420,8 +420,8 @@ function setupAdminEventListeners() {
         yesnoBtn.onclick = () => {
             const optionsContainer = document.getElementById('modal-options-container');
             optionsContainer.innerHTML = '';
-            addOptionInputField('Ja', 'question');
-            addOptionInputField('Nein', 'question');
+            addOptionInputField('Ja', 'none');
+            addOptionInputField('Nein', 'none');
         };
     }
 
@@ -496,12 +496,15 @@ function addOptionInputField(value = '', selectedSilhouette = 'question') {
     row.className = 'option-edit-row';
 
     const isCustomImage = selectedSilhouette.startsWith('data:image/') || selectedSilhouette.startsWith('http://') || selectedSilhouette.startsWith('https://');
-    const actualSilhouette = isCustomImage ? selectedSilhouette : 'question';
+    const actualSilhouette = isCustomImage ? selectedSilhouette : selectedSilhouette;
 
-    // Create custom visual select HTML (Only 'question' silhouette + 'custom' picture)
+    // Create custom visual select HTML (Only 'question' silhouette + 'none' + 'custom' picture)
     let optionsHtml = `
-        <div class="custom-select-option ${!isCustomImage ? 'active' : ''}" data-value="question" onclick="selectCustomOption(this, 'question')">
+        <div class="custom-select-option ${selectedSilhouette === 'question' ? 'active' : ''}" data-value="question" onclick="selectCustomOption(this, 'question')">
             <div class="option-icon">${getSilhouetteSvg('question')}</div>
+        </div>
+        <div class="custom-select-option ${selectedSilhouette === 'none' ? 'active' : ''}" data-value="none" onclick="selectCustomOption(this, 'none')">
+            <div class="option-icon" style="font-size: 0.6rem; font-family: var(--font-typewriter); font-weight: bold; display: flex; align-items: center; justify-content: center; text-transform: uppercase; line-height: 1;">Kein</div>
         </div>
     `;
 
