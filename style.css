@@ -1607,7 +1607,7 @@ body {
 }
 
 .animated-shiver {
-    animation: shiver 0.4s infinite alternate;
+    animation: shiver 1.5s infinite alternate ease-in-out;
 }
 
 @keyframes pulse {

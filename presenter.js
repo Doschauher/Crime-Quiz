@@ -77,13 +77,33 @@ async function handleStateChange() {
     const statsBox = document.querySelector('.presenter-stats');
     
     if (presenterState.active_question_id) {
+        // Start fetching question details immediately to avoid delay
+        const fetchPromise = db
+            .from('questions')
+            .select('*')
+            .eq('id', presenterState.active_question_id)
+            .single();
+
+        // Check if we are switching from one active question to another
+        const isSwitchingActive = currentQuestion && 
+                                  currentQuestion.id !== presenterState.active_question_id && 
+                                  !activeView.classList.contains('hidden');
+        
+        if (isSwitchingActive) {
+            // First slide out the active view
+            activeView.className = activeView.className.replace(/\banim-\S+/g, '').trim();
+            activeView.classList.add('anim-paper-slide-out');
+            
+            // Wait for slide-out animation to finish (400ms)
+            await new Promise(resolve => setTimeout(resolve, 400));
+            
+            activeView.classList.add('hidden');
+            activeView.classList.remove('anim-paper-slide-out');
+        }
+
         // Fetch question details
         try {
-            const { data: qData, error } = await db
-                .from('questions')
-                .select('*')
-                .eq('id', presenterState.active_question_id)
-                .single();
+            const { data: qData, error } = await fetchPromise;
                 
             if (error) throw error;
             
@@ -97,8 +117,20 @@ async function handleStateChange() {
             renderVotingPhaseSuspects();
             
             // Show active view with transition
-            if (activeView.classList.contains('hidden')) {
-                animateTransition(waitingView, activeView, 'paper-slide');
+            if (activeView.classList.contains('hidden') || isSwitchingActive) {
+                activeView.classList.remove('hidden');
+                activeView.className = activeView.className.replace(/\banim-\S+/g, '').trim();
+                activeView.classList.add('anim-paper-slide-in');
+                
+                let cleaned = false;
+                const cleanup = () => {
+                    if (cleaned) return;
+                    cleaned = true;
+                    activeView.classList.remove('anim-paper-slide-in');
+                    activeView.removeEventListener('animationend', cleanup);
+                };
+                activeView.addEventListener('animationend', cleanup);
+                setTimeout(cleanup, 800);
             } else {
                 waitingView.classList.add('hidden');
                 activeView.classList.remove('hidden');
