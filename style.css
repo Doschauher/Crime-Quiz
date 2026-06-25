@@ -2728,17 +2728,17 @@ select:focus-visible {
          0px  3px 0 var(--color-cream);
 }
 
-/* Small stopwatch for mobile voter view */
-.stopwatch-container.stopwatch-small {
-    width: 50px;
-    height: 50px;
-    border-width: 2px;
+/* Centered stopwatch for mobile voter view */
+.stopwatch-container.voter-stopwatch {
+    width: 70px;
+    height: 70px;
+    border-width: 2.5px;
     box-shadow: var(--retro-shadow-small);
-    margin-right: 0;
+    margin: 0 auto 1.2rem auto;
 }
 
-.stopwatch-container.stopwatch-small .stopwatch-text {
-    font-size: 1.2rem;
+.stopwatch-container.voter-stopwatch .stopwatch-text {
+    font-size: 1.5rem;
 }
 
 /* Specific alignments inside voting-status-container */

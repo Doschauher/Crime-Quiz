@@ -92,16 +92,14 @@
 
             <!-- Question State -->
             <div id="voter-question-container" class="hidden">
-                <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; width: 100%;">
-                    <h2 id="voter-question-text" class="question-title" style="margin: 0; flex-grow: 1;">Wer ist der Mörder?</h2>
-                    <div id="voter-stopwatch" class="stopwatch-container stopwatch-small hidden">
-                        <svg class="stopwatch-svg" viewBox="0 0 100 100">
-                            <circle cx="50" cy="50" r="45" stroke="var(--color-dark)" stroke-width="5" fill="var(--color-cream)" />
-                            <path class="stopwatch-pie" d="" fill="var(--color-red)" stroke="var(--color-dark)" stroke-width="1.5" />
-                        </svg>
-                        <div class="stopwatch-text">0</div>
-                    </div>
+                <div id="voter-stopwatch" class="stopwatch-container voter-stopwatch hidden">
+                    <svg class="stopwatch-svg" viewBox="0 0 100 100">
+                        <circle cx="50" cy="50" r="45" stroke="var(--color-dark)" stroke-width="5" fill="var(--color-cream)" />
+                        <path class="stopwatch-pie" d="" fill="var(--color-red)" stroke="var(--color-dark)" stroke-width="1.5" />
+                    </svg>
+                    <div class="stopwatch-text">0</div>
                 </div>
+                <h2 id="voter-question-text" class="question-title" style="text-align: center; margin-bottom: 1.5rem;">Wer ist der Mörder?</h2>
                 <div id="voter-options-list" class="voter-options-grid-polaroid">
                     <!-- Dynamic option buttons inserted here -->
                 </div>
