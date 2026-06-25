@@ -2714,9 +2714,18 @@ select:focus-visible {
     position: relative;
     font-family: var(--font-display);
     font-size: 2.2rem;
+    font-weight: bold;
     color: var(--color-dark);
     z-index: 10;
-    text-shadow: 1px 1px 0px var(--color-cream);
+    text-shadow: 
+        -2px -2px 0 var(--color-cream),  
+         2px -2px 0 var(--color-cream),
+        -2px  2px 0 var(--color-cream),
+         2px  2px 0 var(--color-cream),
+        -3px  0px 0 var(--color-cream),
+         3px  0px 0 var(--color-cream),
+         0px -3px 0 var(--color-cream),
+         0px  3px 0 var(--color-cream);
 }
 
 /* Small stopwatch for mobile voter view */
