@@ -1703,7 +1703,7 @@ body {
 /* Voter Suspect Polaroid Grid & Cards */
 .voter-options-grid-polaroid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1.5rem 1rem;
     justify-content: center;
     align-items: start; /* Prevent vertical stretch to preserve aspect-ratio */
@@ -1748,6 +1748,7 @@ body {
     transform: rotate(var(--rotation, 0deg));
     width: 100%;
     max-width: 160px;
+    min-width: 0;
     margin: 0 auto;
 }
 
